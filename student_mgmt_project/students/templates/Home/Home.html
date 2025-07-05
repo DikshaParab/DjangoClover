@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f4f8;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 1200px;
+            /* max-width: 1000px; */
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .add-task-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #00b7ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .add-task-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="http://127.0.0.1:8000/AddStudent/" class="add-task-btn">Add Task</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Roll Number</th>
+                <th>Department</th>
+                <th>Date of Birth</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>My</td>
+                <td>Name</td>
+                <td>Is</td>
+                <td>Kunal</td>
+                <td>Sharma</td>
+                <td>
+
+                    <a href='#' class="add-task-btn">Complete
+                        Task</a>
+                    <a href='http://127.0.0.1:8000/UpdateStudent/' class="add-task-btn">Update
+                        Task</a>
+                    <a href='#' class="add-task-btn">Delete
+                        Task</a>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>
