@@ -9,7 +9,25 @@ class Students(models.Model):
     Department = models.CharField(max_length=120)
     Date_of_Birth = models.DateField()
 
-class LoginForms(forms.Form):
-    Email = forms.EmailField(max_length=120)
-    Password = forms.CharField(max_length=120)
+class LoginForms(models.Model):
+    StudentEmail = models.EmailField(max_length=120)
+    StudentPassword = models.CharField(max_length=120)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
