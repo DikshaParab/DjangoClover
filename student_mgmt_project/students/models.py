@@ -9,9 +9,17 @@ class Students(models.Model):
     Department = models.CharField(max_length=120)
     Date_of_Birth = models.DateField()
 
-class LoginForms(models.Model):
-    StudentEmail = models.EmailField(max_length=120)
-    StudentPassword = models.CharField(max_length=120)
+class Register(models.Model):
+    Name = models.CharField(max_length=120)
+    Email = models.EmailField(max_length=200)
+    Password = models.CharField(max_length=120)
+
+    def to_dict(self):
+        return {
+            "Name":self.Name,
+            "Email":self.Email,
+            "Password":self.Password
+        }
     
 
 
