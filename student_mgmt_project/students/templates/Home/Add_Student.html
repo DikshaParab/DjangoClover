@@ -65,21 +65,24 @@
   </style>
 </head>
 <body>
-  <form method="post" action="http://127.0.0.1:5000/tasks/{{ ID }}">
-    <h1>To Do List</h1>
-    <label>Title Of Task</label>
-    <input type="text" name='title'/>
+  <form method="post" action="http://127.0.0.1:8000/Student/">
+    {% csrf_token %}
 
-    <label>Description of Task</label>
-    <input type="text" name="description"/>
+    <h1>Students Details</h1>
+    <label>Name</label>
+    <input type="text" name='name'/>
 
-    <label>Due Date of Task</label>
-    <input type="date" name="due_date"/>
-
-    <label>Priority</label>
-    <label><input type="radio" name="priority" value="High"/> High</label>
-    <label><input type="radio" name="priority" value="Medium"/> Medium</label>
-    <label><input type="radio" name="priority" value="Low"/> Low</label>
+    <label>Email</label>
+    <input type="text" name="email"/>
+    
+    <label>Roll Number</label>
+    <input type="number" name="rollNumber"/>
+    
+    <label>Department</label>
+    <input type="text" name="dept"/>
+    
+    <label>Date of Birth</label>
+    <input type="date" name="dob"/>
 
     <br><br>
     <button type="submit">Submit</button>
