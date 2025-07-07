@@ -2,24 +2,19 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Register, Students
 
-# Utility to return all students as dicts
 def get_all_students():
     return [i.to_dict() for i in Students.objects.all()]
 
-# Home view with all students
 def view_all(request):
     return render(request, "Home/Home.html", {"Data": get_all_students()})
 
-# Show login page
 def login_form(request):
     return render(request, "login.html")
 
-# Handle login submission
 def login_user(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
-
         try:
             user = Register.objects.get(Email=email)
             if user.Password == password:
@@ -31,11 +26,9 @@ def login_user(request):
     
     return redirect("login")
 
-# Show registration page
 def registration_form(request):
     return render(request, "register.html")
 
-# Handle registration submission
 def register_student(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -54,7 +47,6 @@ def register_student(request):
 
     return render(request, "register.html")
 
-# Show student creation form
 def create_student(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -77,7 +69,6 @@ def create_student(request):
 
     return render(request, "Home/Add_Student.html")
 
-# Show student update form
 def update_student_form(request, studentId):
     return render(request, "Home/Update_Student.html", {"ID": studentId})
 
@@ -95,7 +86,6 @@ def update_student(request, studentId):
 
     return HttpResponse("❌ Invalid Request")
 
-# Handle student deletion
 def delete_student(request, studentId):
     student = get_object_or_404(Students, Roll_Number=studentId)
     student.delete()
