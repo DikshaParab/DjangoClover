@@ -2,14 +2,15 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.contrib.auth import login,authenticate
 from .models import Register,Students
-
-GettingAllData = Students.objects.all()
-AllStudents =[i.to_dict() for i in GettingAllData]
+def GettingAllData():
+    GettingAllData = Students.objects.all()
+    AllStudents =[i.to_dict() for i in GettingAllData]
+    return AllStudents
 
 def ViewAll(request):
     all_students = Students.objects.all()
     all_students =[i.to_dict() for i in all_students]
-    return render(request,"Home/Home.html",{"Data":AllStudents})
+    return render(request,"Home/Home.html",{"Data":GettingAllData()})
 
 def Student(request):
     if request.method == "POST":
@@ -27,7 +28,7 @@ def Student(request):
             if True:
                 register = Students(Name=name, Email=email, Roll_Number=RollNumber,Department=Department,Date_of_Birth=dob)
                 register.save()
-                return render(request,"Home/Home.html",{"Data":AllStudents})
+                return render(request,"Home/Home.html",{"Data":GettingAllData()})
 def Update(request,studentId):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -52,9 +53,9 @@ def UpdateStudent(request,studentId):
 def DeleteStudent(request,studentId):
     student = get_object_or_404(Students, Roll_Number=studentId)
     student.delete()
-    return render(request,"Home/Home.html",{"Data":AllStudents})
+    return render(request,"Home/Home.html",{"Data":GettingAllData()})
 
-def Register(request):
+def Registeration(request):
     return render(request,"register.html")
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -90,7 +91,7 @@ def LoginValue(request):
         all_students =[i.to_dict() for i in all_students]
         isExisting = list(filter(lambda x:x["Email"] == username,all_students))
         if isExisting[0]["Password"] == password:
-            return render(request,"Home/Home.html",{"Data":AllStudents})
+            return render(request,"Home/Home.html",{"Data":GettingAllData()})
         else:
             return HttpResponse("❌ Invalid Id or Password")
 def Login(request):
