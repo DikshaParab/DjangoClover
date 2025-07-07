@@ -9,6 +9,7 @@ urlpatterns = [
     path('Home/', views.ViewAll, name='posts'),
     path('AddStudent/', views.AddStudent, name='AddStudents'),
     path('UpdateStudent/<int:studentId>/', views.UpdateStudent, name='UpdateStudent'),
+    path('Update/<int:studentId>/', views.Update, name='UpdateStudent'),
     path('Student/', views.Student, name='Student'),
     path('DeleteStudent/<int:studentId>/', views.DeleteStudent, name='DeleteStudent'),
 ]

@@ -9,7 +9,6 @@ AllStudents =[i.to_dict() for i in GettingAllData]
 def ViewAll(request):
     all_students = Students.objects.all()
     all_students =[i.to_dict() for i in all_students]
-    print({"Data":all_students})
     return render(request,"Home/Home.html",{"Data":AllStudents})
 
 def Student(request):
@@ -29,14 +28,28 @@ def Student(request):
                 register = Students(Name=name, Email=email, Roll_Number=RollNumber,Department=Department,Date_of_Birth=dob)
                 register.save()
                 return render(request,"Home/Home.html",{"Data":AllStudents})
+def Update(request,studentId):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        Email = request.POST.get("email")
+        RollNumber = request.POST.get("rollNumber")
+        Department = request.POST.get("dept")
+        Date_of_Birth = request.POST.get("dob")
+        ListofStudent = Students.objects.get(Roll_Number = studentId)
+        ListofStudent.Name = name
+        ListofStudent.Email = Email
+        ListofStudent.Roll_Number = RollNumber
+        ListofStudent.Department = Department
+        ListofStudent.Date_of_Birth = Date_of_Birth
+        ListofStudent.save()
+    return render(request,"Home/Home.html")
 def AddStudent(request):
     return render(request,"Home/Add_Student.html")
 
 def UpdateStudent(request,studentId):
-    print(studentId)
-    return render(request,"Home/Update_Student.html")
+    return render(request,"Home/Update_Student.html",{"ID":studentId})
+
 def DeleteStudent(request,studentId):
-    print(studentId)
     student = get_object_or_404(Students, Roll_Number=studentId)
     student.delete()
     return render(request,"Home/Home.html",{"Data":AllStudents})

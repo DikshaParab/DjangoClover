@@ -67,33 +67,24 @@
 </head>
 
 <body>
-    <form method="post" action="http://127.0.0.1:5000/Update/{{ ID }}">
-        <h2>Update List</h2>
+    <form method="post" action="http://127.0.0.1:8000/Update/{{ ID }}/">
+        {% csrf_token %}
+        <h2>Update Students</h2>
         <div>
-            <label>Title Of Task</label>
-            <input type="text" name='title' /><br><br>
-            <label>Description of Task</label>
-            <input type="text" name="description" /><br><br>
-            <label>Due Date of Task</label>
-            <input type="date" name="date" /><br><br>
-            <label>Priority</label>
-            <div style="display: flex;">
+            <label>Name</label>
+            <input type="text" name='name' />
 
-                <div style="width: 80px;">
-                    <label>High</label>
-                    <input type="radio" name="priority" value="High" /><br><br>
-                </div>
-                <div style="width: 80px;">
-                    <label>Medium</label>
-                    <input type="radio" name="priority" value="Medium" /><br><br>
-                </div>
-                <div>
-                    <label>Low</label>
-                    <input type="radio" name="priority" value="Low" /><br><br>
-                </div>
-            </div>
-            <label>Completed</label>
-            <input type="checkbox" name="Completed" /><br><br>
+            <label>Email</label>
+            <input type="text" name="email" />
+
+            <label>Roll Number</label>
+            <input type="number" name="rollNumber" />
+
+            <label>Department</label>
+            <input type="text" name="dept" />
+
+            <label>Date of Birth</label>
+            <input type="date" name="dob" />
         </div>
         <div>
             <button type="submit">Submit</button>
