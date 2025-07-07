@@ -1,98 +1,102 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.contrib.auth import login,authenticate
-from .models import Register,Students
-def GettingAllData():
-    GettingAllData = Students.objects.all()
-    AllStudents =[i.to_dict() for i in GettingAllData]
-    return AllStudents
+from .models import Register, Students
 
-def ViewAll(request):
-    all_students = Students.objects.all()
-    all_students =[i.to_dict() for i in all_students]
-    return render(request,"Home/Home.html",{"Data":GettingAllData()})
+# Utility to return all students as dicts
+def get_all_students():
+    return [i.to_dict() for i in Students.objects.all()]
 
-def Student(request):
+# Home view with all students
+def view_all(request):
+    return render(request, "Home/Home.html", {"Data": get_all_students()})
+
+# Show login page
+def login_form(request):
+    return render(request, "login.html")
+
+# Handle login submission
+def login_user(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user = Register.objects.get(Email=email)
+            if user.Password == password:
+                return redirect("home")
+            else:
+                return HttpResponse("❌ Invalid Password")
+        except Register.DoesNotExist:
+            return HttpResponse("❌ Invalid Email")
+    
+    return redirect("login")
+
+# Show registration page
+def registration_form(request):
+    return render(request, "register.html")
+
+# Handle registration submission
+def register_student(request):
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
-        RollNumber = request.POST.get('rollNumber')
-        Department = request.POST.get('dept')
-        dob = request.POST.get('dob')
-        all_students = Students.objects.all()
-        all_students =[i.to_dict() for i in all_students]
-        isExisting = bool(list(filter(lambda x:x["Roll_Number"] == RollNumber,all_students)))
-        if isExisting:
-            return HttpResponse("❌ Roll Number Already Existed.")
-        else:
-            if True:
-                register = Students(Name=name, Email=email, Roll_Number=RollNumber,Department=Department,Date_of_Birth=dob)
-                register.save()
-                return render(request,"Home/Home.html",{"Data":GettingAllData()})
-def Update(request,studentId):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        Email = request.POST.get("email")
-        RollNumber = request.POST.get("rollNumber")
-        Department = request.POST.get("dept")
-        Date_of_Birth = request.POST.get("dob")
-        ListofStudent = Students.objects.get(Roll_Number = studentId)
-        ListofStudent.Name = name
-        ListofStudent.Email = Email
-        ListofStudent.Roll_Number = RollNumber
-        ListofStudent.Department = Department
-        ListofStudent.Date_of_Birth = Date_of_Birth
-        ListofStudent.save()
-    return render(request,"Home/Home.html")
-def AddStudent(request):
-    return render(request,"Home/Add_Student.html")
-
-def UpdateStudent(request,studentId):
-    return render(request,"Home/Update_Student.html",{"ID":studentId})
-
-def DeleteStudent(request,studentId):
-    student = get_object_or_404(Students, Roll_Number=studentId)
-    student.delete()
-    return render(request,"Home/Home.html",{"Data":GettingAllData()})
-
-def Registeration(request):
-    return render(request,"register.html")
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Register  # Ensure your model is imported
-
-def RegisterStudent(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        username = request.POST.get('email')
         password = request.POST.get('password')
         repassword = request.POST.get('Repassword')
-        all_students = Register.objects.all()
-        all_students =[i.to_dict() for i in all_students]
-        isExisting = bool(list(filter(lambda x:x["Email"] == username,all_students)))
-        if isExisting:
-            return HttpResponse("❌ Account Already Existed.")
-        else:
-            if password == repassword:
-                register = Register(Name=name, Password=password, Email=username)
-                register.save()
-                return render(request, "login.html")  # Redirect or render as needed
-            else:
-                return HttpResponse("❌ Both passwords are different. Please try again.")
-    
-    return render(request, "register.html")  # If GET request, show registration form
 
+        if Register.objects.filter(Email=email).exists():
+            return HttpResponse("❌ Account Already Exists.")
 
-def LoginValue(request):
+        if password != repassword:
+            return HttpResponse("❌ Passwords do not match.")
+
+        Register.objects.create(Name=name, Email=email, Password=password)
+        return redirect("login")
+
+    return render(request, "register.html")
+
+# Show student creation form
+def create_student(request):
     if request.method == "POST":
-        username = request.POST.get('email')
-        password = request.POST.get('password')
-        all_students = Register.objects.all()
-        all_students =[i.to_dict() for i in all_students]
-        isExisting = list(filter(lambda x:x["Email"] == username,all_students))
-        if isExisting[0]["Password"] == password:
-            return render(request,"Home/Home.html",{"Data":GettingAllData()})
-        else:
-            return HttpResponse("❌ Invalid Id or Password")
-def Login(request):
-    return render(request,"login.html")
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        roll_number = request.POST.get('rollNumber')
+        department = request.POST.get('dept')
+        dob = request.POST.get('dob')
+
+        if Students.objects.filter(Roll_Number=roll_number).exists():
+            return HttpResponse("❌ Roll Number Already Exists.")
+
+        Students.objects.create(
+            Name=name,
+            Email=email,
+            Roll_Number=roll_number,
+            Department=department,
+            Date_of_Birth=dob
+        )
+        return redirect("home")
+
+    return render(request, "Home/Add_Student.html")
+
+# Show student update form
+def update_student_form(request, studentId):
+    return render(request, "Home/Update_Student.html", {"ID": studentId})
+
+# Handle student update
+def update_student(request, studentId):
+    if request.method == "POST":
+        student = get_object_or_404(Students, Roll_Number=studentId)
+        student.Name = request.POST.get("name")
+        student.Email = request.POST.get("email")
+        student.Roll_Number = request.POST.get("rollNumber")
+        student.Department = request.POST.get("dept")
+        student.Date_of_Birth = request.POST.get("dob")
+        student.save()
+        return redirect("home")
+
+    return HttpResponse("❌ Invalid Request")
+
+# Handle student deletion
+def delete_student(request, studentId):
+    student = get_object_or_404(Students, Roll_Number=studentId)
+    student.delete()
+    return redirect("home")

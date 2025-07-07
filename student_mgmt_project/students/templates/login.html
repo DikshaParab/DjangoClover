@@ -62,13 +62,13 @@
 <body>
     <div class="form-container">
         <h2>Login</h2>
-        <form method="POST" action="http://127.0.0.1:8000/LoginInfo/">
+        <form method="POST" action="http://127.0.0.1:8000/login/">
             {% csrf_token %}
             <input type="email" name="email" placeholder="Email Address" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
-        <a href="http://127.0.0.1:8000/Register/">Don't have an account? Register</a>
+        <a href="http://127.0.0.1:8000/register/">Don't have an account? Register</a>
     </div>
 </body>
 

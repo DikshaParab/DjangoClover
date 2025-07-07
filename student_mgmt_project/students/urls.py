@@ -2,14 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.Login, name='Login'),
-    path('LoginInfo/', views.LoginValue, name='LoginValue'),
-    path('Register/', views.Registeration, name='Register'),
-    path('RegisterStudent/', views.RegisterStudent, name='RegisterStudent'),
-    path('Home/', views.ViewAll, name='posts'),
-    path('AddStudent/', views.AddStudent, name='AddStudents'),
-    path('UpdateStudent/<int:studentId>/', views.UpdateStudent, name='UpdateStudent'),
-    path('Update/<int:studentId>/', views.Update, name='UpdateStudent'),
-    path('Student/', views.Student, name='Student'),
-    path('DeleteStudent/<int:studentId>/', views.DeleteStudent, name='DeleteStudent'),
+    path('', views.login_form, name='login'),
+    path('login/', views.login_user, name='login_user'),
+
+    path('register/', views.registration_form, name='registration_form'),
+    path('register/submit/', views.register_student, name='register_student'),
+
+    path('home/', views.view_all, name='home'),
+    
+    path('students/add/', views.create_student, name='create_student'),
+    path('students/update/<int:studentId>/', views.update_student_form, name='update_student_form'),
+    path('students/update/submit/<int:studentId>/', views.update_student, name='update_student'),
+    path('students/delete/<int:studentId>/', views.delete_student, name='delete_student'),
 ]

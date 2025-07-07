@@ -69,7 +69,7 @@
 
 <body>
 
-    <a href="http://127.0.0.1:8000/AddStudent/" class="add-task-btn">Add students</a>
+    <a href="http://127.0.0.1:8000/students/add/" class="add-task-btn">Add students</a>
 
     <table border="1">
     <thead>
@@ -92,8 +92,8 @@
             <td>{{ student.Department }}</td>
             <td>{{ student.Date_of_Birth }}</td>
             <td>
-                <a href="http://127.0.0.1:8000/UpdateStudent/{{ student.Roll_Number }}" class="add-task-btn">Update Student</a>
-                <a href="http://127.0.0.1:8000/DeleteStudent/{{ student.Roll_Number }}" class="add-task-btn">Delete Student</a>
+                <a href="http://127.0.0.1:8000/students/update/{{ student.Roll_Number }}" class="add-task-btn">Update Student</a>
+                <a href="http://127.0.0.1:8000/students/delete/{{ student.Roll_Number }}" class="add-task-btn">Delete Student</a>
             </td>
         </tr>
         {% empty %}
